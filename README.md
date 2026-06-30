@@ -1,1 +1,111 @@
-# Employee_Attrition_Analysis
+# Employee Attrition Analysis — SQL & Power BI
+
+End-to-end analysis of IBM's HR Employee Attrition dataset, covering database querying with SQL and an interactive Power BI dashboard to uncover the key drivers behind employee turnover.
+
+## Overview
+
+This project investigates why employees leave the organization using a dataset of 1,470 employees across 35 attributes (demographics, compensation, job role, satisfaction scores, and tenure). The workflow loads the raw data into a relational database, answers business questions with SQL, and visualizes the findings in an interactive Power BI report.
+
+**Overall attrition rate: 16.1%** (237 of 1,470 employees)
+
+## Dataset
+
+| | |
+|---|---|
+| Source | IBM HR Analytics Employee Attrition & Performance dataset |
+| Rows | 1,470 employees |
+| Columns | 35 (demographic, job, compensation, and satisfaction attributes) |
+| Format | CSV → loaded into SQL database |
+| Missing values | None |
+
+Key fields include `Attrition`, `Age`, `Department`, `JobRole`, `MonthlyIncome`, `OverTime`, `JobSatisfaction`, `YearsAtCompany`, and `WorkLifeBalance`.
+
+## Tech stack
+
+- **SQL** — data loading, cleaning, and analytical queries (`/sql`)
+- **Power BI** — interactive dashboard and DAX measures (`/powerbi`)
+- **Database**: [add your engine here, e.g. PostgreSQL / MySQL / SQL Server]
+
+## Repository structure
+
+```
+├── data/
+│   └── Employee_Attrition.csv          # Raw source data
+├── sql/
+│   ├── 01_create_tables.sql            # Schema and table creation
+│   ├── 02_data_cleaning.sql            # Cleaning and type fixes
+│   └── 03_analysis_queries.sql         # Business-question queries
+├── powerbi/
+│   └── Employee_Attrition_Dashboard.pbix
+├── screenshots/
+│   └── dashboard_overview.png
+└── README.md
+```
+
+## SQL work
+
+The `sql/` folder loads the CSV into a relational table and answers core business questions, including:
+
+- Overall and department-level attrition rate
+- Attrition rate by overtime status, job role, and marital status
+- Average tenure, income, and satisfaction scores compared between employees who left and those who stayed
+- Identification and removal of constant/non-informative columns (`EmployeeCount`, `StandardHours`, `Over18`)
+
+Example query:
+
+```sql
+SELECT
+    JobRole,
+    COUNT(*) AS total_employees,
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS attrition_count,
+    ROUND(100.0 * SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 1) AS attrition_rate_pct
+FROM employee_attrition
+GROUP BY JobRole
+ORDER BY attrition_rate_pct DESC;
+```
+
+See [`sql/03_analysis_queries.sql`](sql/03_analysis_queries.sql) for the full list of queries.
+
+## Power BI dashboard
+
+The `.pbix` file presents an interactive view of the SQL findings, including:
+
+- **KPI cards** — overall attrition rate, total headcount, average tenure
+- **Attrition by job role and department** — bar charts highlighting high-risk roles (e.g. Sales Representatives)
+- **Overtime impact** — comparison of attrition rate for employees working overtime vs. not
+- **Tenure and income breakdown** — distribution of years at company and monthly income split by attrition status
+- **Slicers** for department, gender, marital status, and age range
+
+Key DAX measures used:
+
+```dax
+Attrition Rate = 
+DIVIDE(
+    CALCULATE(COUNTROWS(employee_attrition), employee_attrition[Attrition] = "Yes"),
+    COUNTROWS(employee_attrition)
+)
+```
+
+[Add a screenshot or GIF of the dashboard here]
+
+## Key findings
+
+- **Overtime** is the strongest single driver — employees working overtime leave at roughly 3x the rate of those who don't (30.5% vs 10.4%)
+- **Sales Representatives** have the highest attrition by job role (39.8%), while Research Directors and Managers have the lowest (under 5%)
+- **Frequent travelers** attrite at 24.9% vs. 8.0% for non-travelers
+- **Single employees** leave at more than double the rate of married employees (25.5% vs 12.5%)
+- Leavers have **less tenure, lower income (~30% less), and lower stock option levels** on average — pointing to early-career flight risk
+- Satisfaction scores (job, environment, work-life balance) have a weaker relationship with attrition than structural factors like overtime and role
+
+## How to reproduce
+
+1. Clone this repository
+2. Load `data/Employee_Attrition.csv` into your SQL database using `sql/01_create_tables.sql`
+3. Run `sql/02_data_cleaning.sql` to clean and standardize the data
+4. Run the queries in `sql/03_analysis_queries.sql` to reproduce the analysis
+5. Open `powerbi/Employee_Attrition_Dashboard.pbix` in Power BI Desktop and refresh the data connection to point to your database
+
+## Author
+
+Chaitanya Darekar — Data Analyst
+[GitHub](https://github.com/ChaitanyaDarekar2002) · [LinkedIn](https://linkedin.com/in/chaitanyadarekar) · chaitanyadarekar2002@gmail.com
