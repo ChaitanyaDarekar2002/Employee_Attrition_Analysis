@@ -1,6 +1,6 @@
-# Employee Attrition Analysis — SQL & Power BI
+# Employee Attrition Analysis — Python, SQL & Power BI
 
-End-to-end analysis of IBM's HR Employee Attrition dataset, covering database querying with SQL and an interactive Power BI dashboard to uncover the key drivers behind employee turnover.
+End-to-end analysis of IBM's HR Employee Attrition dataset, covering exploratory data analysis in Python, database querying with SQL, and an interactive Power BI dashboard to uncover the key drivers behind employee turnover.
 
 ## Overview
 
@@ -22,15 +22,21 @@ Key fields include `Attrition`, `Age`, `Department`, `JobRole`, `MonthlyIncome`,
 
 ## Tech stack
 
+- **Python** — data cleaning, exploratory data analysis, and visualization (`/python`)
 - **SQL** — data loading, cleaning, and analytical queries (`/sql`)
 - **Power BI** — interactive dashboard and DAX measures (`/powerbi`)
 - **Database**: [add your engine here, e.g. PostgreSQL / MySQL / SQL Server]
+- **Python libraries**: pandas, numpy, matplotlib / seaborn, jupyter
 
 ## Repository structure
 
 ```
 ├── data/
 │   └── Employee_Attrition.csv          # Raw source data
+├── python/
+│   ├── eda_employee_attrition.ipynb    # Exploratory data analysis notebook
+│   ├── requirements.txt                # Python dependencies
+│   └── charts/                         # Exported chart images
 ├── sql/
 │   ├── 01_create_tables.sql            # Schema and table creation
 │   ├── 02_data_cleaning.sql            # Cleaning and type fixes
@@ -40,6 +46,40 @@ Key fields include `Attrition`, `Age`, `Department`, `JobRole`, `MonthlyIncome`,
 ├── screenshots/
 │   └── dashboard_overview.png
 └── README.md
+```
+
+## Python work
+
+The `python/` folder contains the exploratory data analysis (EDA) performed before moving the data into SQL and Power BI. It covers:
+
+- **Data profiling** — shape, dtypes, and missing-value check (1,470 rows × 35 columns, no nulls)
+- **Univariate analysis** — distribution of attrition, age, income, and tenure
+- **Bivariate analysis** — attrition rate broken down by categorical features (`OverTime`, `JobRole`, `Department`, `BusinessTravel`, `MaritalStatus`) and compared against numeric features (income, tenure, satisfaction scores) using group means
+- **Correlation analysis** — Pearson correlation of all numeric features against attrition
+- **Visualization** — bar charts of attrition rate by job role and overtime status, used to validate findings later reproduced in SQL and Power BI
+
+Example snippet:
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data/Employee_Attrition.csv")
+
+# Attrition rate by job role
+attrition_by_role = (
+    df.groupby("JobRole")["Attrition"]
+    .apply(lambda x: (x == "Yes").mean() * 100)
+    .sort_values(ascending=False)
+)
+print(attrition_by_role.round(1))
+```
+
+Run it yourself:
+
+```bash
+cd python
+pip install -r requirements.txt
+jupyter notebook eda_employee_attrition.ipynb
 ```
 
 ## SQL work
@@ -100,10 +140,11 @@ DIVIDE(
 ## How to reproduce
 
 1. Clone this repository
-2. Load `data/Employee_Attrition.csv` into your SQL database using `sql/01_create_tables.sql`
-3. Run `sql/02_data_cleaning.sql` to clean and standardize the data
-4. Run the queries in `sql/03_analysis_queries.sql` to reproduce the analysis
-5. Open `powerbi/Employee_Attrition_Dashboard.pbix` in Power BI Desktop and refresh the data connection to point to your database
+2. (Optional) Run the Python EDA: `cd python && pip install -r requirements.txt && jupyter notebook eda_employee_attrition.ipynb`
+3. Load `data/Employee_Attrition.csv` into your SQL database using `sql/01_create_tables.sql`
+4. Run `sql/02_data_cleaning.sql` to clean and standardize the data
+5. Run the queries in `sql/03_analysis_queries.sql` to reproduce the analysis
+6. Open `powerbi/Employee_Attrition_Dashboard.pbix` in Power BI Desktop and refresh the data connection to point to your database
 
 ## Author
 
