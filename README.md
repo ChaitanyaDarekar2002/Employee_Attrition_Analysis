@@ -28,25 +28,7 @@ Key fields include `Attrition`, `Age`, `Department`, `JobRole`, `MonthlyIncome`,
 - **Database**: [add your engine here, e.g. PostgreSQL / MySQL / SQL Server]
 - **Python libraries**: pandas, numpy, matplotlib / seaborn, jupyter
 
-## Repository structure
 
-```
-├── data/
-│   └── Employee_Attrition.csv          # Raw source data
-├── python/
-│   ├── eda_employee_attrition.ipynb    # Exploratory data analysis notebook
-│   ├── requirements.txt                # Python dependencies
-│   └── charts/                         # Exported chart images
-├── sql/
-│   ├── 01_create_tables.sql            # Schema and table creation
-│   ├── 02_data_cleaning.sql            # Cleaning and type fixes
-│   └── 03_analysis_queries.sql         # Business-question queries
-├── powerbi/
-│   └── Employee_Attrition_Dashboard.pbix
-├── screenshots/
-│   └── dashboard_overview.png
-└── README.md
-```
 
 ## Python work
 
