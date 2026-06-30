@@ -131,4 +131,4 @@ DIVIDE(
 ## Author
 
 Chaitanya Darekar — Data Analyst
-[GitHub](https://github.com/ChaitanyaDarekar2002) · [LinkedIn](https://linkedin.com/in/chaitanyadarekar) · chaitanyadarekar2002@gmail.com
+[GitHub](https://github.com/ChaitanyaDarekar2002) · [LinkedIn](https://linkedin.com/in/chaitanyadarekar02) · chaitanyadarekar2002@gmail.com
