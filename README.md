@@ -107,6 +107,7 @@ DIVIDE(
     COUNTROWS(employee_attrition)
 )
 ```
+## PowerBI Dashborad Preview 
 
 <img width="1918" height="975" alt="image" src="https://github.com/user-attachments/assets/87cab67e-98d4-44fd-9f37-42193ba1524a" />
 
