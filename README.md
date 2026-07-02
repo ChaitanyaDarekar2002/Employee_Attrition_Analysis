@@ -85,6 +85,10 @@ FROM employee_attrition
 GROUP BY JobRole
 ORDER BY attrition_rate_pct DESC;
 ```
+## SQL Querey Preview
+
+<img width="1915" height="1023" alt="Screenshot 2026-07-02 150426" src="https://github.com/user-attachments/assets/60262037-ab14-4a97-bdbd-2904a5de0bbf" />
+
 
 See [`sql/03_analysis_queries.sql`](sql/03_analysis_queries.sql) for the full list of queries.
 
