@@ -115,6 +115,10 @@ DIVIDE(
 
 <img width="1918" height="975" alt="image" src="https://github.com/user-attachments/assets/87cab67e-98d4-44fd-9f37-42193ba1524a" />
 
+## New Dashborad By Using Sql Querey Output
+
+<img width="1918" height="1020" alt="Screenshot 2026-07-02 151944" src="https://github.com/user-attachments/assets/2b108ce3-a12d-40f0-87ff-f2b3a1c3ca01" />
+
 
 ## Key findings
 
